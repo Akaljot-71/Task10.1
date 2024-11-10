@@ -1,0 +1,16 @@
+.featured-tutorials {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .tutorial {
+    width: 30%;
+    text-align: center;
+  }
+  
+  .tutorial img {
+    width: 400px;
+    height: 350px;
+  }
+  

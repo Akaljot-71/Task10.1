@@ -1,0 +1,17 @@
+.featured-articles {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .article {
+    width: 30%;
+    text-align: center;
+  }
+  
+  .article img {
+    width: 400px;
+    height: 350px;
+  }
+ 
+    

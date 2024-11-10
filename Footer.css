@@ -1,0 +1,46 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+  background-color: teal;
+  color: black;
+}
+
+.footer-section {
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+  background-color: teal;
+}
+
+.footer-section h4 {
+  margin-bottom: 10px;
+}
+
+.footer-section a {
+  display: block;
+  color: black;
+  text-decoration: none;
+  margin: 5px 5px;
+  background-color: teal;
+}
+
+.footer-section a:hover {
+  color: #ff6347; 
+}
+
+.footer-bottom {
+  background-color: teal;
+  text-align: center;
+}
+.footer-bottom h3 {
+  color: black;
+  text-decoration: none;
+  margin: 0;
+}
+.footer-bottom a {
+  color: black;
+  text-decoration: none;
+  padding: 8px;
+}
+
