@@ -1,41 +1,65 @@
-// Signup.js
+//server.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const formData = require('form-data');
 const Mailgun = require('mailgun.js');
-const cors = require('cors');
-
+const cors = require('cors'); 
 const app = express();
+
+
 app.use(cors());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use(express.static('public'));
 
-app.post('/', async function(req, res) {
-  const email = req.body.email;
-
-  try {
-    await sendWelcomeEmail(email);
-    res.send(`Welcome! Your email is ${email}`);
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.send("There was an error signing up. Please try again.");
-  }
+const mailgun = new Mailgun(formData);
+const mg = mailgun.client({
+    username: 'api',
+    key:  '8afff10fd35182dbc952fbfdc50a24df-79295dd0-868f4dc7'
 });
 
-async function sendWelcomeEmail(email) {
-  const mailgun = new Mailgun(formData);
-  const mg = mailgun.client({username: 'api', key: '9ccb038633f657318fce1915a48b6e25-5dcb5e36-535f6f97'});
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html', (err) => {
+        if (err) {
+            console.error('Error sending index.html:', err);
+            res.status(500).send('Error loading the homepage');
+        }
+    });
+});
 
-  const data = {
-    from: 'Akaljot4756.be23@chitkara.edu.in',
-    to: email,
-    subject: 'Welcome to Deakin Newsletter',
-    text: `Hi,\n\nThank you for signing up for the Deakin Newsletter! We're excited to have you with us.\n\nBest regards,\nDeakin Team`,
-  };
+app.post('/', (req, res) => {
+    const { Email } = req.body;
 
-  await mg.messages.create('mailgun.com', data);
-}
+    if (!Email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
 
-app.listen(8080, function() {
-  console.log("The server is listening on port 8080");
+    const domain = 'sandbox7474172587b743a3a718d827af45baf6.mailgun.org';
+
+    if (!domain) {
+        return res.status(500).json({ error: 'Mailgun domain is not configured' });
+    }
+
+    mg.messages
+        .create(domain, {
+          from: 'Akaljot4756.be23@chitkara.edu.in',
+          to: Email,
+          subject: 'Welcome to Deakin Newsletter',
+          text: `Hi ,\n\nThank you for signing up for the Deakin Newsletter! We're excited to have you with us.\n\nBest regards,\nDeakin Team`,  
+        })
+        .then((msg) => {
+            console.log('Email sent successfully:', msg);
+            res.status(200).json({ message: 'Subscription successful, email sent!' });
+        })
+        .catch((err) => {
+            console.error('Error sending email:', err);
+            res.status(500).json({ error: 'Failed to send email' });
+        });
+});
+
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
 });
