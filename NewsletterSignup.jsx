@@ -8,18 +8,18 @@ function NewsletterSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const response = await fetch('/http://localhost:8080/', {
-      method: 'POST',
+    const response = await fetch("http://localhost:3000/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+          "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ Email: email }),
     });
-
+  
     const result = await response.text();
     alert(result);
   };
-
+  
   return (
     <div className="newsletter-signup">
       <h2>Sign Up for Our Daily Insider</h2>
